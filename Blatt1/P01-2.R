@@ -31,5 +31,5 @@ vec_dist(c(4,3),c(1,-1))
 vec_dist(c(4,1,-2),c(-1,2,-2), 1)
 vec_dist(c(7,-3,42),c(-7,-15,39), Inf)
 vec_dist(c(1,sqrt(3)))
-vec_dist(c(3,0,-1), 1)#! case 3 -> verteiler fehler
-vec_dist(c(7,-39,22), Inf)#! case 4 -> verteiler fehler
+vec_dist(c(3,0,-1), 1)
+vec_dist(c(7,-39,22), Inf)
