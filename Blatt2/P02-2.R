@@ -1,6 +1,4 @@
-# Paul Proft, Lionel Assick, Kira Nname, Emma Nname
-
-#nur noch namen
+# Paul Proft, Lionel Assick, Gina Lilienkamp, Emma Roser
 
 matrix_man <- function(v, nrow=NULL, ncol=NULL, row_names=NULL, col_names=NULL) {
   #ToDo: ... fill function body ...

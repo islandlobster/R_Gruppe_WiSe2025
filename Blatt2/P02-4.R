@@ -1,6 +1,4 @@
-# Paul Proft, Lionel Assick, Kira Nname, Emma Nname
-
-#nur noch namen
+# Paul Proft, Lionel Assick, Gina Lilienkamp, Emma Roser
 
 collatz <- function(x, max_iter=10^4){
     #generate the output sequence

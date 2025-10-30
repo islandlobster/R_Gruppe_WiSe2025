@@ -1,1 +1,1 @@
-# Paul Proft, Lionel Assick, Kira Nname, Emma (Roser)?
+# Paul Proft, Lionel Assick, Gina Lilienkamp, Emma Roser
