@@ -1,7 +1,6 @@
 # Paul Proft, Lionel Assick, Gina Lilienkamp, Emma Roser
 
-matrix_man <- function(v, nrow=NULL, ncol=NULL, row_names=NULL, col_names=NULL) {
-  #ToDo: ... fill function body ...
+matrix_man <- function(v, nrow=NULL, ncol=NULL, row_names=NULL, col_names=NULL) {...
   
   #handle len 1 exception
   if(length(v)==1 & (!is.null(nrow) & !is.null(ncol))){tmp <- v[1]; v <- rep(tmp, times= nrow*ncol); rows <- nrow} #create vctor of appropriate length

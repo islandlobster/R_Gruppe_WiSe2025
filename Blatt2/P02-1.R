@@ -1,7 +1,5 @@
 # Paul Proft, Lionel Assick, Gina Lilienkamp, Emma Roser
 
-#namen und cond + vertehen was singular beudetet
-
 lsq <- function(M, y, cond = 1e6) {
   # ToDo: ... checks for appropriate arguments ...
   
@@ -27,7 +25,7 @@ lsq <- function(M, y, cond = 1e6) {
   
   #Die Konditionszahl von M T M , vergleichen Sie diese mit dem Schwellenwert cond und geben Sie ggf.einen Fehlermeldung aus
   #cat("Condition number of M^T * M:", kappa(t(M)%*%M), "\n")
-  stopifnot("conidtion number of M^T * M exceeds cond" = !(cond < kappa(t(M)%*%M)))
+  stopifnot("conidtion number of M^T * M exceeds limit" = !(cond < kappa(t(M)%*%M)))
   
   A <- t(M)%*%M
   return(solve(A, t(M)%*%y))

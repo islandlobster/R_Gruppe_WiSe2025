@@ -33,5 +33,10 @@ collatz <- function(x, max_iter=10^4){
 }
 
 str(collatz(837799))
+str(collatz(6))
+str(collatz(19))
+str(collatz(1))
+str(collatz(27))
+str(collatz(2))
 #Bonus: To use a german saying: "This is the drop,
 #that makes the barrel OVERFLOW"
