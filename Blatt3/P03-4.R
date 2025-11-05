@@ -15,6 +15,7 @@ sudoku <- function(M, n=NA, m=NA){
     if(!is.matrix(M)) stop("First input needs to be a matrix")
     if(!is.numeric(M)) stop("Matrix needs to be numerical")
     if(k != ncol(M)) stop("Matrix needs to be quadratic")
+    if(any(!(M %in% c(1:k, NA)))) stop("Matrix cannot contain numbers larger than its number of rows")
     #check if n and m are valid
     if(anyNA(tempN)){
         if(anyNA(tempM)) stop("n or m need to be set as numbers")
@@ -52,7 +53,7 @@ size <- function(sud){
 
 #3 DONE: create is_sudoku function
 is_sudoku <- function(sud){
-    if((!identical(class(sud),"sudoku")) || (length(size(sud))!=2) || ((prod(size(sud))^2)!=length(sud))) return(FALSE)
+    if((!identical(class(sud),"sudoku")) || (length(size(sud))!=2) || ((prod(size(sud))^2)!=length(sud)) || !identical(typeof(sud),"integer") || !any(!(sud %in% 1:prod(size(sudoku))))) return(FALSE)
     return(TRUE)
 }
 
@@ -77,15 +78,20 @@ p_table <- function(n, m){
     return(res)
 }
 
-#6 TODO: create is_filled, is_valid, is_solved functions
+#6.1 DONE: create is_filled, is_valid, is_solved functions
+is_filled <- function(sud){
+    return(!anyNA(sud) && is_sudoku(sud))
+}
+
+#6.2 TODO: create is_valid function
+
+#6.3 TODO: create is_solved function
 
 #7 TODO: create is_sol_of function
 
 #8 TODO: create non_valid_values function
 
 mat <- matrix(c(1,3,4,2,2,4,1,3,3,1,2,4,4,2,3,1), nrow=4, ncol=4)
-sud <- sudoku(mat, 2)
+sud <- sudoku(mat, 2, 3)
 sud
-p_table(3,2)
-p_table(2,3)
-p_table(2,2)
+is_filled(sud)
