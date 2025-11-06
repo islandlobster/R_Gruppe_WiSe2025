@@ -1,4 +1,4 @@
-#TODO: names
+# Paul Proft, Lionel Assick, Gina Lilienkamp, Emma Roser
 
 #EXTRA: make the sudoku pretty
 print.sudoku <- function(sud){
@@ -15,6 +15,7 @@ sudoku <- function(M, n=NA, m=NA){
     if(!is.matrix(M)) stop("First input needs to be a matrix")
     if(!is.numeric(M)) stop("Matrix needs to be numerical")
     if(k != ncol(M)) stop("Matrix needs to be quadratic")
+    if(any(!(M %in% c(1:k, NA)))) stop("Matrix cannot contain numbers larger than its number of rows")
     #check if n and m are valid
     if(anyNA(tempN)){
         if(anyNA(tempM)) stop("n or m need to be set as numbers")
@@ -40,7 +41,7 @@ sudoku <- function(M, n=NA, m=NA){
     }
 }
 
-#2 DONE: create size function
+#2 DONE: create size functions
 size <- function(sud){
     return(attr(sud, 'size'))
 }
@@ -52,40 +53,60 @@ size <- function(sud){
 
 #3 DONE: create is_sudoku function
 is_sudoku <- function(sud){
-    if((!identical(class(sud),"sudoku")) || (length(size(sud))!=2) || ((prod(size(sud))^2)!=length(sud))) return(FALSE)
+    if((!identical(class(sud),"sudoku")) || (length(size(sud))!=2) || ((prod(size(sud))^2)!=length(sud)) || !identical(typeof(sud),"integer") || !any(!(sud %in% 1:prod(size(sudoku))))) return(FALSE)
     return(TRUE)
 }
 
 #4 DONE: create is_pre_valid function
 is_pre_valid <- function(M){
+    #convert matrix to pseudo-vector if necessary
     if(is.matrix(M)){
         temp <- matrix(M, nrow=1)
     } else{
         temp <- M
     }
-    if(!anyDuplicated(temp[which(is.na(temp))])!=0) return(FALSE)
+    #test if any duplicates are present except NA
+    if(anyDuplicated(temp[which(!is.na(temp))])!=0) return(FALSE)
     return(TRUE)
 }
 
 #5 DONE: create p_table function
 p_table <- function(n, m){
+    #variables for convenience
     k = n*m
     temp1 = 1:k
+    #get numbers in correct order
     temp2 = unlist(rep(split(temp1,ceiling(seq_along(temp1) / m)), each=m), use.names=FALSE)
+    #repeat each number in correct amount
     temp3 = rep(temp2, each=n)
     res = matrix(temp3, nrow=k, ncol=k)
     return(res)
 }
 
-#6 TODO: create is_filled, is_valid, is_solved functions
+#6.1 DONE: create is_filled, is_valid, is_solved functions
+is_filled <- function(sud){
+    return(!anyNA(sud) && is_sudoku(sud))
+}
 
-#7 TODO: create is_sol_of function
+#6.2 DONE: finish is_valid function
+is_valid <- function(sud){
+    if(!is_sudoku(sud)) return(FALSE)
+    temp <- matrix(sud, nrow=prod(size(sud)))
+    rows <- unlist(lapply(split(temp, row(temp)), 'is_pre_valid'), use.names=FALSE)
+    cols <- unlist(lapply(split(temp, col(temp)), 'is_pre_valid'), use.names=FALSE)
+    fields <- unlist(lapply(split(temp, p_table(size(sud)[1], size(sud)[2])), 'is_pre_valid'), use.names=FALSE)
+    return(!(any(!rows) || any(!cols) || any(!fields)))
+}
+
+#6.3 DONE: test is_solved function
+is_solved <- function(sud){
+    return(is_filled(sud) && is_valid(sud))
+}
+
+#7 DONE: create is_sol_of function
+is_sol_of <- function(S1, S2){
+    if(!is_solved(S1) || !is_valid(S2) || length(S1)!=length(S2) || !identical(size(S1),size(S2))) return(FALSE)
+    return(!any(!(sud1 == sud2 | is.na(sud2))))
+}
 
 #8 TODO: create non_valid_values function
-
-mat <- matrix(c(1,3,4,2,2,4,1,3,3,1,2,4,4,2,3,1), nrow=4, ncol=4)
-sud <- sudoku(mat, 2)
-sud
-p_table(3,2)
-p_table(2,3)
-p_table(2,2)
