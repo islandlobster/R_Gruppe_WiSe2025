@@ -109,4 +109,38 @@ is_sol_of <- function(S1, S2){
     return(!any(!(sud1 == sud2 | is.na(sud2))))
 }
 
-#8 TODO: create non_valid_values function
+#8 DONE: create non_valid_values function
+non_valid_values <- function(sud){
+    #sudoku is solved
+    if(is_solved(sud)){
+        print(NULL)
+    } else{
+        k <- prod(size(sud))
+        M <- matrix(sud, nrow=k)
+        #sudoku is not filled
+        if(!is_filled(sud)){
+            print("NAs at the following coordinates:")
+            print(which(is.na(M), arr.ind=TRUE))
+        }
+        #sudoku is invalid
+        if(!is_valid(sud)){
+            rows <- unlist(lapply(split(M, row(M)), 'is_pre_valid'), use.names=FALSE)
+            cols <- unlist(lapply(split(M, col(M)), 'is_pre_valid'), use.names=FALSE)
+            fields <- unlist(lapply(split(M, p_table(size(sud)[1], size(sud)[2])), 'is_pre_valid'), use.names=FALSE)
+            fieldMat <- matrix(fields, nrow=size(sud)[2])
+            if(any(!rows)){
+                print("Duplicates in the following rows:")
+                print(which(!rows))
+            }
+            if(any(!cols)){
+                print("Duplicates in the following columns:")
+                print(which(!cols))
+            }
+            if(any(!fields)){
+                print("Duplicates in the following fields:")
+                print(fieldMat)
+                print(which(!fieldMat, arr.ind=TRUE))
+            }
+        }
+    }
+}
