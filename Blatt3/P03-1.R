@@ -16,4 +16,6 @@ y
 #2
 `/`(`*`(y, x), 5)
 #3
-(`<`(x,`/`( y, 10)))[3:4]
+`[`(`<`(x,`/`(y, 10)), 3:4)
+
+#Klammern weil das prioritäten setzt/indiziert und : weil macrofunktion für die keine Präfix vom system gestellt wird (könnte aber manuell gschrieben werden)
