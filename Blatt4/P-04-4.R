@@ -10,7 +10,7 @@
 library(tidyverse)
 
 # Datei einlesen
-pers_data <- read_csv("Blatt4/pers_data.csv")
+pers_data <- read_csv("pers_data.csv")
 print("Originaldaten:")
 print(pers_data)
 
