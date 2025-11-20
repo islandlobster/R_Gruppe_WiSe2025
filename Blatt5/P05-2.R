@@ -1,4 +1,4 @@
-#TODO: names
+# Paul Proft, Lionel Assick, Gina Lilienkamp, Emma Roser
 
 library(tidyverse)
 
