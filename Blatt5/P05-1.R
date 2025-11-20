@@ -88,9 +88,24 @@ nrow(revenues3)
 
 
 # Aufgabe 5.6
-
-
+#join revenues onto emplyoers
+#cp into tibble: employer, revenue_2021, employees -> get rev_per_emp
+#find lowest and apply half to all NAs
+#cp into tibble: sector, tot_rev_per_sec, tot_emp_per_sec -> get avg_rev_per_emp_per_sec
 
 
 # Aufgabe 5.7
+#sort cities by census_2020 descending
+#cutoff 300
+#of origonal 300, sort by state and suborder by census_2020 descending
+#add new col: start_pos_state onto every entry, the pos_in_state = pos - start_pos_state + 1 
+#join cp of that onto cp of states
+#remove all that didnt join
+#muatate new col on cp of states: pos_in_state
+
+
 # Aufgabe 5.8
+#cp of states
+#for each entry in mass_shootings ++ to the state entry the num_shootings by 1
+#arrange descending by num_shootings
+
