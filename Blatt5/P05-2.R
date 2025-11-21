@@ -14,17 +14,21 @@ measurements <- pivot_wider(measurements, names_from = type, values_from = value
 
 #DONE 4: create tibble incompletePatients
 temp1 <- measurements %>% dplyr::group_by(pid) %>% dplyr::summarize(expl=sum((syst==-1)|(diast==-1)), impl=62-n())
-incompletePatients <-full_join(patients, temp1,by = join_by(id == pid))
+incompletePatients <- select(full_join(temp1, patients,by = join_by(pid == id)), pid, `first name`, `last name`, group, expl, impl)
 
 
 #DONE 5: extract tibble nMissing
 nMissing <- incompletePatients %>% group_by(group) %>% summarize(missing=sum(expl+impl))
 
-#TODO 6: more tibbles...
+#DONE 6: more tibbles...
+completePatients <- filter(patients, !(id %in% incompletePatients$pid),  `start of treatment`>=as.Date("2024-07-06"), `start of treatment`<=as.Date("2024-08-15"))
+temp2 <- inner_join(measurements, completePatients, by=join_by(pid==id)) %>% select(pid, dated, syst, diast, `start of treatment`)
+preTemp <- filter(temp2, dated<`start of treatment`)
+postTemp <- filter(temp2, dated>`start of treatment`+10)
+preTemp <- preTemp %>% group_by(pid) %>% reframe(sPre=mean(syst), dPre=mean(diast))
+postTemp <- postTemp %>% group_by(pid) %>% reframe(sPost=mean(syst), dPost=mean(diast))
+workingSet <- inner_join(preTemp, postTemp, by = join_by(pid==pid))
 
-
-#TODO 7: generate effectSizes tibble
-
-
-#TODO 8*: repeat 6&7 with data of incompletePatients
-
+#DONE 7: generate effectSizes tibble
+temp3 <- inner_join(workingSet, completePatients, by=join_by(pid==id)) %>% select(pid, group, sex, sPre, dPre, sPost, dPost)
+effectSizes <- temp3 %>% group_by(group, sex) %>% reframe(deltaSysMean=sPost-sPre, deltaDiaMean=dPost-dPre, deltaDistMean=(sPost-sPre)-(dPost-dPre))
