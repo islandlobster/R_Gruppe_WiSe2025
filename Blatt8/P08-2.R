@@ -290,11 +290,6 @@ setClass(
   )
 )
 
-#To-Do: Volleyball and Football show
-
-#To-Do: Volleyballshow_game_course
-
-#To-Do: Volleyball play_round
 
 #Example Usage
 tt1 <- new("TTGame", parties = c("A. B.", "C. D."))
