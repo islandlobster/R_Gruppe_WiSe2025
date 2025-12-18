@@ -2,6 +2,7 @@
 
 library(rlang)
 library(stringr)
+library(tibble)
 
 operators <- c("!", "&", "|", "<=", ">=", "==")
 vars <- c("a", "b", "c", "d", "e", "f", "g")
@@ -52,8 +53,22 @@ print.Prop <- function(x){
     print(res, quote = FALSE)
 }
 
-#TODO 4: write interpret function
-#interpret <- function(p, vars, append = FALSE){}
+#DONE 4: write interpret function
+interpret <- function(p, vars, append = FALSE){
+    string <- expr_text(p)
+    temp <- str_replace_all(string, "<=", "=<")
+    temp <- str_replace_all(temp, ">=", "<=")
+    temp <- str_replace_all(temp, "=<", ">=")
+    expr <- parse_expr(temp)
+    vals <- vars
+    for(i in 1:length(vals)) vals[[i]] <- vars[[i]]==1
+    res <- eval_tidy(expr, vals)
+    if(append){
+        return(add_column(vars, !!string := res))
+    } else{
+        return(res)
+    }
+}
 
 #TODO 5: write is_tautology function
 #is_tautology <- function(p){}
