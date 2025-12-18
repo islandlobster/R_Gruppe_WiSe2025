@@ -1,4 +1,4 @@
-# hier Namen einfügen
+# Paul Proft, Lionel Assick, Gina Lilienkamp, Emma Roser
 
 library(dplyr)
 library(rlang)
@@ -77,4 +77,5 @@ plot_olympic <- function(event, Sex, metric) {
     scale_color_manual(values = medal_colors) +
     ggtitle(str_c(event, ", ", Sex))
 }
+
 plot_olympic("10,000 metres", "M", Weight / (Height / 100)^2)
