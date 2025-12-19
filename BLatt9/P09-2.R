@@ -3,14 +3,15 @@
 library(rlang)
 library(stringr)
 library(tibble)
+library(tidyr)
 
 operators <- c("!", "&", "|", "<=", ">=", "==")
-vars <- c("a", "b", "c", "d", "e", "f", "g")
+variables <- c("a", "b", "c", "d", "e", "f", "g")
 
 #DONE 1: write validate_Prop function
 validate_operator <- function(x) if(!(rlang::as_string(x) %in% operators)) stop("invalid operator")
 
-validate_var <- function(x) if(!(rlang::as_string(x) %in% vars)) stop("invalid variable name")
+validate_var <- function(x) if(!(rlang::as_string(x) %in% variables)) stop("invalid variable name")
 
 validate_Prop <- function(x){
     if(class(x)!="Prop") stop("class must be Prop")
@@ -70,5 +71,13 @@ interpret <- function(p, vars, append = FALSE){
     }
 }
 
-#TODO 5: write is_tautology function
-#is_tautology <- function(p){}
+#DONE 5: write is_tautology function
+is_tautology <- function(p){
+    string <- expr_text(p)
+    vars <- str_extract(string, variables)
+    vars <- vars[!is.na(vars)]
+    vals <- setNames(rep(list(0:1), length(vars)), y)
+    vals <- as_tibble(vals)
+    vals <- do.call(expand, c(list(vals), lapply(names(vals), as.symbol)))
+    return(!any(!interpret(p, vars)))
+}
