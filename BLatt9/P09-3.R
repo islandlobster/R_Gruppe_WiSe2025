@@ -8,8 +8,6 @@ library(stringr)
 library(tidyr)
 
 
-
-
 #1
 rate <- function(tb, expr, name) {
   expr_quo <- enquo(expr)
@@ -56,10 +54,9 @@ medal_colors <- c(
   Gold   = "#AF9500"
 )
 
-
-
 plot_olympic <- function(event, Sex, metric) {
   metric_quo <- enquo(metric)
+  metric_label <- as_label(metric_quo)
   
   d <- athletes %>%
     filter(Event == event, Sex == Sex) %>%
@@ -71,11 +68,12 @@ plot_olympic <- function(event, Sex, metric) {
   ggplot(d, aes(x = Year, y = metric_val)) +
     geom_boxplot(na.rm = TRUE) +
     geom_point(
-      data = d %>% filter(!is.na(metric_val)),
+      data = d %>% filter(!is.na(metric_val), !is.na(Medal)),
       aes(color = Medal)
     ) +
     scale_color_manual(values = medal_colors) +
-    ggtitle(str_c(event, ", ", Sex))
+    labs(
+      title = paste(event, Sex, sep = ", "),
+      y = metric_label
+    )
 }
-
-plot_olympic("10,000 metres", "M", Weight / (Height / 100)^2)
